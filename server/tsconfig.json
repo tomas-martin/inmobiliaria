@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    /* ---- Compatibilidad con Node y módulos ESM ---- */
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "typeRoots": ["./node_modules/@types"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* ---- Rutas ---- */
+    "rootDir": "./",
+    "outDir": "./dist",
+
+    /* ---- Seguridad ---- */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* ---- Otros ---- */
+    "resolveJsonModule": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}

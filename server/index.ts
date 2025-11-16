@@ -15,16 +15,39 @@ const pool = new Pool({
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 🔥 CORS ACTUALIZADO - PERMITE TU DOMINIO DE VERCEL
+// 🔥 CORS ACTUALIZADO CON MANEJO COMPLETO
 app.use(cors({
-  origin: [
-    "https://inmobiliaria-uufh.vercel.app",  // ✅ Tu dominio de Vercel
-    "http://localhost:5173"                   // ✅ Para desarrollo local
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"],
-  credentials: true
+  origin: function(origin, callback) {
+    const allowedOrigins = [
+      'https://inmobiliaria-uufh.vercel.app',
+      'http://localhost:5173'
+    ];
+    
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
+
+// Headers CORS adicionales
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://inmobiliaria-uufh.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  
+  next();
+});
 
 app.use(express.json());
 
